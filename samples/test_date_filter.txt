@@ -1,0 +1,6 @@
+-i=../samples/sandbox-installs.csv
+-o=output.txt
+-a
+-g=geo_country
+-s=2019-09-30 21:30:00.000 UTC
+-e=2019-10-01 20:30:00.000 UTC

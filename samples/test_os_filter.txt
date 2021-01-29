@@ -1,0 +1,5 @@
+-i=../samples/sandbox-installs.csv
+-o=output.txt
+-a
+-g=geo_country
+-fos=android-max-4,ios-min-5-max-6

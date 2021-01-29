@@ -1,0 +1,4 @@
+-i=../samples/sandbox-installs.csv
+-o=output.txt
+-a
+-fn=device_os,android,ios;device_category,tablet;device_model_name,iPad Pro 12.9 2nd gen,SM-A105M
