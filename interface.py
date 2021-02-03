@@ -3,6 +3,8 @@ from src.stats import *
 from src.utils import *
 import csv
 import sys
+#import dask.array as da
+#import hvplot.dask
 
 def parse_args(args):
     parser = argparse.ArgumentParser(description="Placeholder",fromfile_prefix_chars='@')
@@ -21,12 +23,14 @@ def parse_args(args):
     parser.add_argument('-j','--json', action="store_true", default=False)
 
     parser.add_argument('-a','--analyse', action="store_true", default=False)
+    
+    parser.add_argument('-pl','--plot', action="store_true", default=False)
 
     parser.add_argument('-z','--sql-command-size', action="store", 
     required=False, nargs=1, type=int)
 
-    parser.add_argument('-p','--parse-dates', action="store", 
-    required=False, nargs=1, type=str)
+    #parser.add_argument('-p','--parse-dates', action="store", 
+    #required=False, nargs=1, type=str)
 
     parser.add_argument('-sep','--sep', action="store", 
     required=False, nargs=1, type=str)
@@ -60,6 +64,12 @@ def parse_args(args):
     help="""spec""", 
     required=False, nargs=1)
 
+    parser.add_argument('-l','--level', type=str, action='store',
+    help="""...""", required=False, nargs=1)
+
+    parser.add_argument('-p','--period', action="store", 
+    required=False, nargs=1, type=str)
+
     return parser.parse_args(args)
 
 def main():
@@ -81,8 +91,46 @@ def main():
         stats = Stats(args)
         #print(stats.dfd[['user_pseudo_id','timestamp_raw']].head())
         stats.filter()
-        #stats.aggregate()
-        stats.dfd.compute()
+        if args.plot:
+            period = {"weekday":"%a", "hour":"%H", "day":"%d", "month":"%m"}
+            level = args.level[0]
+            df = stats.dfd.compute()
+            # graph by hour, weekday, month, days
+            p = args.period[0]
+            df[p] = df['timestamp_raw'].dt.strftime(period[p])
+            if args.group_by:
+                if level=="hour":
+                    ax = df.groupby([df['timestamp_raw'].dt.hour, 
+                        args.group_by[0]]).size().unstack().plot()
+                elif level=="minute":
+                    ax = df.groupby([df['timestamp_raw'].dt.minute, 
+                        args.group_by[0]]).size().unstack().plot()
+                elif level=="day":
+                    ax = df.groupby([df['timestamp_raw'].dt.day, 
+                        args.group_by[0]]).size().unstack().plot()
+            else:
+                if level=="hour":
+                    ax = df.resample(rule='H',on="timestamp_raw")["timestamp_raw"].count().plot()
+                elif level=="minute":
+                    ax = df.resample(rule='15min',on="timestamp_raw")["timestamp_raw"].count().plot()
+                elif level=="day":
+                    ax = df.resample(rule='D',on="timestamp_raw")["timestamp_raw"].count().plot()
+            fig = ax.get_figure()
+            fig.savefig(args.output[0])
+        elif args.group_by:
+            df = stats.aggregate()
+            df.to_csv(args.output[0])
+        #ax = df["timestamp_raw"].hist()
+        #.df['weekday'] = df['timestamp_raw'].dt.strftime("%a")
+        #df['hour'] = df['timestamp_raw'].dt.strftime("%H")
+        #df['day'] = df['timestamp_raw'].dt.strftime("%d")
+        #.ax = df.groupby([df['timestamp_raw'].dt.hour, 'weekday']).size().unstack().plot()
+        
+        #ax = df.groupby([df['timestamp_raw'].dt.hour, 'day']).size().unstack().plot()
+        #ax = df.groupby('hour').size().plot()
+        
+        
+        #..df.to_csv("testing-*.csv")
         #print('\n\n',stats.dfd[['user_pseudo_id','timestamp_raw']].head())
 
 

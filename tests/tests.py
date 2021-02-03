@@ -46,8 +46,7 @@ class TestJSON(unittest.TestCase):
 class TestAnalysis(unittest.TestCase):
 
     def test_date_filter(self):
-        args = parse_args(['@../samples/arguments.txt'])
-        #args = parse_args(['@test_date_filter.txt'])
+        args = parse_args(['@test_date_filter.txt'])
         stats = Stats(args)
         stats.filter()
         start_date = pd.Timestamp(year=2019, month=9, day=30, hour=20, 
@@ -60,8 +59,7 @@ class TestAnalysis(unittest.TestCase):
             self.assertTrue(row['timestamp_raw'] <= end_date and row['timestamp_raw'] >= start_date)  
         
     def test_name_filter(self):
-        args = parse_args(['@../samples/test_name_filter.txt'])
-        #args = parse_args(['@test_date_filter.txt'])
+        args = parse_args(['@test_name_filter.txt'])
         stats = Stats(args)
         stats.filter()
         stats.dfd.compute()
@@ -73,19 +71,19 @@ class TestAnalysis(unittest.TestCase):
         tablet = False
         ipad = False
         sm = False
-        #print("stats.filter_names",stats.filter_names)
         for idx, row in stats.dfd.iterrows():
             self.assertTrue(lower(row['device_os']) in oses 
             and lower(row["device_category"]) in cat 
             and lower(row["device_model_name"]) in mod,
             "Failed on row " + str(idx))
+        stats.aggregate()
+        print(stats.dfd.head())
         
     def test_country_region_filter(self):
-        args = parse_args(['@../samples/test_c_filter.txt'])
+        args = parse_args(['@test_c_filter.txt'])
         stats = Stats(args)
         stats.filter()
         stats.dfd.compute()
-        #print(stats.countries, stats.regions, stats.region_of_country)
         countries = {"cuba"}
         regions = {"crimea"}
         region_of_country = {("peru","piura")}
@@ -93,11 +91,8 @@ class TestAnalysis(unittest.TestCase):
         r = False
         cr = False
         for idx, row in stats.dfd.iterrows():
-            #print(row)
-            #print(row['geo_country'],row["geo_region"])
             country = lower(row['geo_country'])
             region = lower(row["geo_region"])
-            #print('\n\n',country, region,'\n\n')
             self.assertTrue(country in countries or region in regions
                 or (country,region) in region_of_country)
             if country in countries:
@@ -110,12 +105,6 @@ class TestAnalysis(unittest.TestCase):
         
     def test_os_filter(self):
         pass
-        #args = parse_args(['@../samples/test_os_filter.txt'])
-        #stats = Stats(args)
-        #stats.filter()
-        #stats.dfd.compute()
-        #print(stats.dfd.head())
-        #for idx, row in stats.dfd.iterrows():
             
 
 unittest.main()

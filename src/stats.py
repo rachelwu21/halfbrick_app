@@ -67,7 +67,10 @@ class Stats():
             
     def __init__(self, args, sep=',', blocksize=64000000):
         self.csvFilePath = args.input[0]
-        self.group_by = args.group_by
+        if args.group_by is not None:
+            self.group_by = args.group_by[0].split(',')
+        else:
+            args.group_by = None
         if args.start is not None:
             self.start_time = pd.to_datetime(args.start[0])
         else:
@@ -101,16 +104,12 @@ class Stats():
         self.filter_names = self.init_names(args)
         
     def filter_by_country_region(self):
-        ## fuck everything, just compute it and iterate over it
-        self.dfd.compute()
         self.dfd.replace(np.nan, '', regex=True)
-        #self.dfd.compute()
-        #all_pairs = list(zip(self.dfd.geo_country, self.dfd.geo_region))
-        #mask = [(lower(c), lower(r)) in self.region_of_country for c, r in all_pairs]
         self.dfd["new_col"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
         self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
                     | self.dfd.geo_region.str.lower().isin(self.regions)
                     | self.dfd["new_col"].isin(self.region_of_country)]
+        self.dfd = self.dfd.drop(['new_col'], axis=1)
         
     def filter_by_name(self):
         for colName, names in self.filter_names:
@@ -144,6 +143,7 @@ class Stats():
         if self.filter_names is not None:
             self.filter_by_name()
         self.filter_by_range()
+        self.dfd.compute()
         if self.countries is not None:
             self.filter_by_country_region()
         
@@ -153,7 +153,8 @@ class Stats():
         # country
         # country and region
         # do the reader filters actually stay filtered?
-        self.dfd = self.dfd.groupby(self.group_by).size()
+        return self.dfd.groupby(self.group_by).size()
+        #self.dfd[self.group_by].value_counts()
         #aggregate by date ranges?
         
 

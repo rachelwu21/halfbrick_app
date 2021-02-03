@@ -1,0 +1,8 @@
+-i=samples/sandbox-installs.csv
+-o=output.png
+-a
+-g=geo_country
+-fc=Brazil,China,Chile,Egypt,India,Italy,Spain
+-pl
+-l=hour
+-p=weekday
