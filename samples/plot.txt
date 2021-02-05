@@ -1,4 +1,5 @@
 -i=samples/sandbox-installs.csv
--o=output.txt
+-o=output4.png
 -a
--g=geo_country
+-pl
+-l=H

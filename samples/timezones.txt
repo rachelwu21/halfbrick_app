@@ -4,5 +4,5 @@
 -g=geo_country
 -fc=Brazil,China,Chile,Egypt,India,Italy,Spain
 -pl
--l=hour
+-l=H
 -p=weekday

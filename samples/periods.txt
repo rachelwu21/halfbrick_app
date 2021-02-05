@@ -1,6 +1,0 @@
--i=samples/sandbox-installs.csv
--o=output4.png
--a
--pl
--l=minute
--p=month
