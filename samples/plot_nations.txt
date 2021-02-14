@@ -1,0 +1,7 @@
+-i=samples/sandbox-installs.csv
+-o=plot_nations.png
+-a
+-g=geo_country
+-fc=India--,China--,Brazil--,Italy--,Spain--,Egypt--,Chile--,Peru--,Iraq--,Iran--
+-pl
+-l=H

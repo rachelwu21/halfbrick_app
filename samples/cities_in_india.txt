@@ -1,0 +1,4 @@
+-i=samples/sandbox-installs.csv
+-a
+-fc=india--
+-g=geo_city

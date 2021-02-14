@@ -1,4 +1,3 @@
 -i=samples/sandbox-installs.csv
--o=output.txt
 -a
 -g=geo_country,geo_region

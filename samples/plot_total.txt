@@ -1,0 +1,5 @@
+-i=samples/sandbox-installs.csv
+-o=plot_total.png
+-a
+-pl
+-l=H

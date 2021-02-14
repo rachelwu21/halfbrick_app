@@ -1,0 +1,5 @@
+-i=samples/sandbox-installs.csv
+-o=output.txt
+-a
+-g=geo_country
+-fc=-crimea-,cuba--,peru-piura-

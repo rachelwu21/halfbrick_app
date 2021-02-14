@@ -1,0 +1,3 @@
+-i=samples/sandbox-installs.csv
+-a
+-g=device_category

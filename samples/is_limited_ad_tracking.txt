@@ -1,0 +1,3 @@
+-i=samples/sandbox-installs.csv
+-a
+-g=is_limited_ad_tracking
