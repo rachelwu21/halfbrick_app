@@ -3,8 +3,7 @@ from src.stats import *
 from src.utils import *
 import csv
 import sys
-#import dask.array as da
-#import hvplot.dask
+from matplotlib import dates
 
 def parse_args(args):
     parser = argparse.ArgumentParser(description="Placeholder",fromfile_prefix_chars='@')
@@ -48,10 +47,6 @@ def parse_args(args):
     help="""specify the latest date and time (UTC) you want included in the results. 
     Format YYYY-MM-DD HH:MM:SS.MMM""", required=False, nargs=1)
 
-#    parser.add_argument('-fos','--filter-os', type=str, action='store',
-#    help="""comma seperated OSes to include: android-max-4.0,ios-min-5.0.1-max-6.0""", 
-#    required=False, nargs=1)
-
     parser.add_argument('-fc','--filter-country', type=str, action='store',
     help="""comma seperated countries/regions to include: country,
     country-region,-region""", 
@@ -70,35 +65,35 @@ def main():
     args = parse_args(sys.argv[1:])
 
     csvFilePath = args.input[0]
-    outputFilePath = args.output[0]
 
     if args.json:
-        csv_to_json(csvFilePath, outputFilePath)
+        csv_to_json(csvFilePath, args.output[0])
     elif args.sql:
         tableName = args.table[0]
         if args.sql_command_size:
-            sql_input_statement(csvFilePath, tableName, outputFilePath, one_statement=False, max_sql_size=args.sql_command_size[0])
+            sql_input_statement(csvFilePath, tableName, args.output[0], one_statement=False, max_sql_size=args.sql_command_size[0])
         else:
-            sql_input_statement(csvFilePath, tableName, outputFilePath)
+            sql_input_statement(csvFilePath, tableName, args.output[0])
     elif args.analyse:
         stats = Stats(args)
         stats.filter()
         if args.plot:
             level = args.level[0]
-            print("level",level)
             df = stats.dfd.compute()
             # graph by hour, weekday, month, days
             if args.group_by:
                 gb = args.group_by[0]
-                ax = df.groupby([pd.Grouper(freq=level,key="timestamp_raw"), gb]).size().unstack().plot()
+                ax = df.groupby([pd.Grouper(freq=level,key="timestamp_raw"), gb]).size().unstack().plot(figsize=(10,5)).legend(loc='upper right')
             else:
-                ax = df.resample(rule=level,on="timestamp_raw")["timestamp_raw"].count().plot()
+                ax = df.resample(rule=level,on="timestamp_raw")["timestamp_raw"].count().plot(figsize=(10,5)).legend(loc='upper right')
             fig = ax.get_figure()
             fig.savefig(args.output[0])
         elif args.group_by:
             df = stats.aggregate()
-            df.to_csv(args.output[0])
-
+            if args.output:
+                df.to_csv(args.output[0])
+            else:
+                print(df.to_string())
 
 if __name__ == '__main__':
     main()

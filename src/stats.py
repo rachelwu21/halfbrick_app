@@ -10,59 +10,42 @@ from .utils import *
 class Stats():
     def init_location(self, args):
         if args.filter_country is None:
-            return (None, None, None)
+            return ([], [], [], [], [], [], [])
         items = args.filter_country[0].lower().split(',')
         countries = set()
         regions = set()
-        region_of_country = set()
+        cities = set()
+        country_region = set()
+        country_city = set()
+        region_city = set()
+        country_region_city = set()
         for item in items:
-            if item[0] == "-":
-                regions.add(item[1:])
-            elif "-" not in item:
-                countries.add(item)
+            country, region, city = item.split('-')
+            if country == '':
+                if region == '':
+                    cities.add(city)
+                elif city == '':
+                    regions.add(region)
+                else:
+                    region_city.add((region,city))
             else:
-                s = item.split('-')
-                region_of_country.add((s[0],s[1]))
-        return (countries, regions, region_of_country)
-        
-    def init_os(self, args):
-        if args.filter_os is None:
-            return list()
-        items = args.filter_os[0].split(',')
-        l = list()
-        for item in items:
-            os = None
-            mini = None
-            maxi = None
-            vs = item.split('-')
-            prev = None
-            for v in vs:
-                if v == "min":
-                    prev = "min"
-                elif v == "max":
-                    prev = "max"
-                elif prev == "min":
-                    prev = None
-                    mini = v
-                elif prev == "max":
-                    prev = None
-                    maxi = v
-                elif prev == None:
-                    os = v
-            l.append((os, mini, maxi))
-        return l
+                if region == '' and city == '':
+                    countries.add(country)
+                elif region == '':
+                    country_city.add((country,city))
+                elif city == '':
+                    country_region.add((country,region))
+                else:
+                    country_region_city.add((country,region,city))
+        return (countries, regions, cities, country_region, country_city, region_city, country_region_city)
         
     def init_names(self, args):
         l = list()
         if args.filter_by_name is None:
             return None
-        #print("args.filter_by_name",args.filter_by_name[0])
-        #print("args.filter_by_name.split(';')",args.filter_by_name[0].split(';'))
         for a in args.filter_by_name[0].split(';'):
             items = a.split(',')
             l.append((items[0],set(x.lower() for x in items[1:])))
-        #print("\ncolumns and names")
-        #print(l,'\n\n')
         return l
             
     def __init__(self, args, sep=',', blocksize=64000000):
@@ -91,26 +74,171 @@ class Stats():
                     parse_dates=['timestamp_raw', 'table_date'])
         elif args.sep is not None:
             self.dfd = dd.read_csv(self.csvFilePath, delimiter=args.sep[0], 
-                    header=0, blocksize=64000000, 
+                    header=0, 
                     dtype={'geo_city': 'object'}, 
                     parse_dates=['timestamp_raw', 'table_date'])
         else:
             self.dfd = dd.read_csv(self.csvFilePath, delimiter=sep, 
-                    header=0, blocksize=64000000, 
+                    header=0, 
                     dtype={'geo_city': 'object'}, 
                     parse_dates=['timestamp_raw', 'table_date'])
-        self.countries, self.regions, self.region_of_country = self.init_location(args)
-        # self.os = self.init_os(args)
+        if args.filter_country is not None:
+            self.countries, self.regions, self.cities, self.country_region, self.country_city, self.region_city, self.country_region_city = self.init_location(args)
+        else:
+            self.countries = None
         self.filter_names = self.init_names(args)
         
-    def filter_by_country_region(self):
-        self.dfd.replace(np.nan, '', regex=True)
-        self.dfd["new_col"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
-        self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
-                    | self.dfd.geo_region.str.lower().isin(self.regions)
-                    | self.dfd["new_col"].isin(self.region_of_country)]
-        self.dfd = self.dfd.drop(['new_col'], axis=1)
-        
+    def filter_by_country_region_city(self):
+        self.dfd = self.dfd.fillna('')
+        country_region = len(self.country_region) != 0
+        country_city = len(self.country_city) != 0
+        region_city = len(self.region_city) != 0
+        country_region_city = len(self.country_region_city) != 0
+        if country_region and country_city and region_city and country_region_city:
+            self.dfd["country_region"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
+            self.dfd["country_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_city)), axis=1)
+            self.dfd["region_city"] = self.dfd.apply(lambda x: (lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd["country_region_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_region"].isin(self.country_region)
+                        | self.dfd["country_city"].isin(self.country_city)
+                        | self.dfd["region_city"].isin(self.region_city)
+                        | self.dfd["country_region_city"].isin(self.country_region_city)]
+            self.dfd = self.dfd.drop(['country_region','country_city','region_city','country_region_city'], axis=1)
+        elif not country_region and country_city and region_city and country_region_city:
+            self.dfd["country_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_city)), axis=1)
+            self.dfd["region_city"] = self.dfd.apply(lambda x: (lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd["country_region_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_city"].isin(self.country_city)
+                        | self.dfd["region_city"].isin(self.region_city)
+                        | self.dfd["country_region_city"].isin(self.country_region_city)]
+            self.dfd = self.dfd.drop(['country_city','region_city','country_region_city'], axis=1)
+        elif country_region and not country_city and region_city and country_region_city:
+            self.dfd["country_region"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
+            self.dfd["region_city"] = self.dfd.apply(lambda x: (lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd["country_region_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_region"].isin(self.country_region)
+                        | self.dfd["region_city"].isin(self.region_city)
+                        | self.dfd["country_region_city"].isin(self.country_region_city)]
+            self.dfd = self.dfd.drop(['country_region','region_city','country_region_city'], axis=1)
+        elif country_region and country_city and not region_city and country_region_city:
+            self.dfd["country_region"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
+            self.dfd["country_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_city)), axis=1)
+            self.dfd["country_region_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_region"].isin(self.country_region)
+                        | self.dfd["country_city"].isin(self.country_city)
+                        | self.dfd["country_region_city"].isin(self.country_region_city)]
+            self.dfd = self.dfd.drop(['country_region','country_city','country_region_city'], axis=1)
+        elif country_region and country_city and region_city and not country_region_city:
+            self.dfd["country_region"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
+            self.dfd["country_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_city)), axis=1)
+            self.dfd["region_city"] = self.dfd.apply(lambda x: (lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_region"].isin(self.country_region)
+                        | self.dfd["country_city"].isin(self.country_city)
+                        | self.dfd["region_city"].isin(self.region_city)]
+            self.dfd = self.dfd.drop(['country_region','country_city','region_city'], axis=1)
+        elif country_region and country_city and not region_city and not country_region_city:
+            self.dfd["country_region"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
+            self.dfd["country_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_region"].isin(self.country_region)
+                        | self.dfd["country_city"].isin(self.country_city)]
+            self.dfd = self.dfd.drop(['country_region','country_city'], axis=1)
+        elif country_region and not country_city and region_city and not country_region_city:
+            self.dfd["country_region"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
+            self.dfd["region_city"] = self.dfd.apply(lambda x: (lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_region"].isin(self.country_region)
+                        | self.dfd["region_city"].isin(self.region_city)]
+            self.dfd = self.dfd.drop(['country_region','country_city','region_city','country_region_city'], axis=1)
+        elif not country_region and country_city and region_city and not country_region_city:
+            self.dfd["country_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_city)), axis=1)
+            self.dfd["region_city"] = self.dfd.apply(lambda x: (lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_city"].isin(self.country_city)
+                        | self.dfd["region_city"].isin(self.region_city)]
+            self.dfd = self.dfd.drop(['country_city','region_city'], axis=1)
+        elif country_region and not country_city and not region_city and country_region_city:
+            self.dfd["country_region"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
+            self.dfd["country_region_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_region"].isin(self.country_region)
+                        | self.dfd["country_region_city"].isin(self.country_region_city)]
+            self.dfd = self.dfd.drop(['country_region','country_region_city'], axis=1)
+        elif not country_region and country_city and not region_city and country_region_city:
+            self.dfd["country_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_city)), axis=1)
+            self.dfd["country_region_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_city"].isin(self.country_city)
+                        | self.dfd["country_region_city"].isin(self.country_region_city)]
+            self.dfd = self.dfd.drop(['country_region','country_city','region_city','country_region_city'], axis=1)
+        elif not country_region and not country_city and region_city and country_region_city:
+            self.dfd["region_city"] = self.dfd.apply(lambda x: (lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd["country_region_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["region_city"].isin(self.region_city)
+                        | self.dfd["country_region_city"].isin(self.country_region_city)]
+            self.dfd = self.dfd.drop(['region_city','country_region_city'], axis=1)
+        elif country_region and not country_city and not region_city and not country_region_city:
+            self.dfd["country_region"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
+            self.dfd["country_region"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_region"].isin(self.country_region)]
+            self.dfd = self.dfd.drop(['country_region'], axis=1)
+        elif not country_region and country_city and not region_city and not country_region_city:
+            self.dfd["country_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_city"].isin(self.country_city)]
+            self.dfd = self.dfd.drop(['country_city'], axis=1)
+        elif not country_region and not country_city and region_city and not country_region_city:
+            self.dfd["region_city"] = self.dfd.apply(lambda x: (lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["region_city"].isin(self.region_city)]
+            self.dfd = self.dfd.drop(['region_city'], axis=1)
+        elif not country_region and not country_city and not region_city and country_region_city:
+            self.dfd["country_region_city"] = self.dfd.apply(lambda x: (lower(x.geo_country), lower(x.geo_region), lower(x.geo_city)), axis=1)
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)
+                        | self.dfd["country_region_city"].isin(self.country_region_city)]
+            self.dfd = self.dfd.drop(['country_region_city'], axis=1)
+        elif not country_region and not country_city and not region_city and not country_region_city:
+            self.dfd = self.dfd[self.dfd.geo_country.str.lower().isin(self.countries) 
+                        | self.dfd.geo_region.str.lower().isin(self.regions)
+                        | self.dfd.geo_city.str.lower().isin(self.cities)]
+            
     def filter_by_name(self):
         for colName, names in self.filter_names:
             self.dfd = self.dfd[self.dfd[colName].str.lower().isin(names)]
@@ -120,42 +248,25 @@ class Stats():
             self.dfd = self.dfd[self.dfd["timestamp_raw"] >= self.start_time]
         elif self.end_time:
             self.dfd = self.dfd[self.dfd["timestamp_raw"] <= self.end_time]
-#        if self.os:
-#            oses = set()
-#            for os in self.os:
-#                oses.add(os[0])
-#                print("HERE 2")
-#                print("os[1]",os[1])
-                # min
-#                if os[1] is not None:
-#                    print("HERE 3")
-#                    print(float(filter(lambda x: x.isdigit(),self.dfd["device_os_version"].str)[0]))
-#                    self.dfd = self.dfd[not (self.dfd["device_os"]==os[0] 
-#                    & (float(filter(lambda x: x.isdigit(),self.dfd["device_os_version"].str)[0] 
-#                    + '.' + filter(lambda x: x.isdigit(),self.dfd["device_os_version"].str)[1:]) 
-#                    <= os[1]))]
-                # max
-#                if os[2] is not None:
-#                    self.dfd = self.dfd[not (self.dfd["device_os"]==os[0] & self.dfd["device_os_version"] >= os[2])]
-#            self.dfd = self.dfd[self.dfd["device_os"].isin(oses)]
 
     def filter(self):
         if self.filter_names is not None:
             self.filter_by_name()
-        self.filter_by_range()
-        self.dfd.compute()
+        if self.start_time is not None:
+            self.filter_by_range()
         if self.countries is not None:
-            self.filter_by_country_region()
+            self.filter_by_country_region_city()
+        
         
     def aggregate(self):
-        # group by field names
-        # group by os and range. DO LATER
-        # country
-        # country and region
-        # do the reader filters actually stay filtered?
-        return self.dfd.groupby(self.group_by).size()
-        #self.dfd[self.group_by].value_counts()
-        #aggregate by date ranges?
+        df = self.dfd.groupby(self.group_by).size().compute().to_frame()
+        df.name = "Aggregation"
+        df.reset_index(inplace=True)
+        df = df.rename(columns = {'index':self.group_by})
+        df = df.rename(columns = {0:'size'})
+        df["percentage"] = 100*df['size']/df['size'].sum()
+        df.sort_values('size', inplace=True, ascending=False)
+        return df
         
 
         
