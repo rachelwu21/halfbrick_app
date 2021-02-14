@@ -14,11 +14,6 @@ from src.utils import *
 
 from interface import *
 
-#parser = configparser.ConfigParser()
-#parser.read('tests.ini')
-#dconfig = parser.items("SQL")
-
-
 class TestJSON(unittest.TestCase):
     def test_json_output_size(self):
         jsonFilePath = ''
@@ -29,7 +24,6 @@ class TestJSON(unittest.TestCase):
         cases = json.load(f)
         f.close()
         for csvFilePath in cases["csvs"]:
-            print("csvFilePath",csvFilePath)
             csv_to_json(csvFilePath, jsonFilePath)
             f = open(jsonFilePath, 'r')
             json_rows = len(json.load(f))
@@ -77,9 +71,8 @@ class TestAnalysis(unittest.TestCase):
             and lower(row["device_model_name"]) in mod,
             "Failed on row " + str(idx))
         stats.aggregate()
-        print(stats.dfd.head())
         
-    def test_country_region_filter(self):
+    def test_country_region_city_filter(self):
         args = parse_args(['@test_c_filter.txt'])
         stats = Stats(args)
         stats.filter()
@@ -102,9 +95,7 @@ class TestAnalysis(unittest.TestCase):
             if (country,region) in region_of_country:
                 cr = True
         self.assertTrue(c and r and cr)
-        
-    def test_os_filter(self):
-        pass
+
             
 
 unittest.main()
