@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import patch, Mock, MagicMock
 from random import randint
 import json
 import csv
@@ -13,6 +12,8 @@ sys.path.append(parentdir)
 from src.utils import *
 
 from interface import *
+
+from src.stats import *
 
 class TestJSON(unittest.TestCase):
     def test_json_output_size(self):

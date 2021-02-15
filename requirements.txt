@@ -4,3 +4,5 @@ numpy==1.19.1
 pandas==1.2.0
 python-dateutil==2.8.1
 pytz==2020.5
+toolz==0.11.1
+dask[dataframe]==2020.12.0
