@@ -123,3 +123,35 @@ python tests.py
 
 
 ## Docker install
+
+Install with
+
+```
+docker build -t halfbrick_app .
+```
+
+Try running it for a print output:
+
+```
+docker run --rm halfbrick_app @samples/device_category.txt
+```
+If you want to make your own file with command-line arguments in the host machine and pass it to the docker container, run:
+
+```
+docker run --name h_app -v $(pwd):$(pwd) halfbrick_app @YOUR/PATH/HERE
+```
+
+If you want to copy the output file to the host:
+
+```
+sudo docker cp h_app:EXAMPLE_FILE $(pwd)
+```
+
+For example:
+
+```
+docker run --name h_app -v $(pwd):$(pwd) halfbrick_app @samples/plot_total.txt
+sudo docker cp h_app:plot_total.png $(pwd)
+```
+
+Will copy the output image to your current directory.
