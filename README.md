@@ -102,9 +102,9 @@ python interface.py @samples/device_language.txt
 ```
 
 
-<details><summary>CLICK ME</summary>
+<details><summary>Commands and their outputs</summary>
 <p>
-``
+```
 $ python interface.py @samples/cities_in_china.txt
 
 $ python interface.py @samples/cities_in_india.txt
