@@ -384,7 +384,129 @@ $ python interface.py @samples/cities_in_china.txt
 <p>
 
 ```
-
+$ python interface.py @samples/cities_in_india.txt
+                       geo_city  size  percentage
+42                    Hyderabad   473   11.687670
+0                                 451   11.144057
+23                      Chennai   446   11.020509
+3                     Ahmedabad   298    7.363479
+71                       Mumbai   264    6.523351
+17                    Bengaluru   261    6.449222
+88                         Pune   202    4.991352
+65                      Lucknow   130    3.212256
+22                   Chandigarh   121    2.989869
+61                      Kolkata   120    2.965159
+46                       Jaipur   117    2.891030
+44                       Indore   105    2.594514
+24                   Coimbatore    87    2.149741
+2                          Agra    83    2.050902
+84                        Patna    81    2.001483
+59                        Kochi    76    1.877934
+78                    New Delhi    74    1.828515
+20                  Bhubaneswar    47    1.161354
+119               Visakhapatnam    44    1.087225
+38                     Guwahati    41    1.013096
+66                     Ludhiana    38    0.938967
+82                      Panipat    33    0.815419
+104                       Surat    29    0.716580
+26                     Dehradun    24    0.593032
+74                       Nagpur    23    0.568322
+19                       Bhopal    23    0.568322
+63                    Kozhikode    18    0.444774
+79                        Noida    14    0.345935
+92                       Ranchi    14    0.345935
+106          Thiruvananthapuram    12    0.296516
+98                 Secunderabad    12    0.296516
+1                      Agartala    11    0.271806
+91                       Rajkot    11    0.271806
+118                  Vijayawada    10    0.247097
+89                       Raipur     9    0.222387
+112                    Vadodara     9    0.222387
+29                     Durgapur     9    0.222387
+105                       Thane     9    0.222387
+76                  Navi Mumbai     8    0.197677
+67                    Mangaluru     8    0.197677
+120                    Warangal     7    0.172968
+36                       Guntur     7    0.172968
+41                        Hisar     6    0.148258
+48                        Jammu     6    0.148258
+100                      Shimla     6    0.148258
+72                       Mysuru     6    0.148258
+30                    Faridabad     6    0.148258
+51                      Jodhpur     6    0.148258
+69                       Meerut     6    0.148258
+77                      Nellore     5    0.123548
+47                    Jalandhar     5    0.123548
+107                    Thrissur     5    0.123548
+87                   Puducherry     5    0.123548
+93                       Rohtak     4    0.098839
+80                       Ongole     4    0.098839
+7                     Ambernath     4    0.098839
+28                     Dombivli     4    0.098839
+8                      Amritsar     4    0.098839
+37                      Gurgaon     4    0.098839
+108             Tiruchirappalli     4    0.098839
+85             Pimpri-Chinchwad     3    0.074129
+110                    Tiruppur     3    0.074129
+56                       Karnal     3    0.074129
+33                    Ghaziabad     3    0.074129
+16                     Bathinda     3    0.074129
+32                  Gandhinagar     3    0.074129
+14                     Badlapur     3    0.074129
+53                       Kalyan     3    0.074129
+116                 Vasai-Virar     3    0.074129
+109                 Tirunelveli     2    0.049419
+73                    Nagercoil     2    0.049419
+83               Pathanamthitta     2    0.049419
+86                    Prayagraj     2    0.049419
+75                       Nashik     2    0.049419
+10                    Anantapur     2    0.049419
+103                     Sonipat     2    0.049419
+39                      Gwalior     2    0.049419
+70               Mira Bhayandar     2    0.049419
+12                   Aurangabad     2    0.049419
+68                       Margao     2    0.049419
+45                     Jabalpur     2    0.049419
+31                   Gandhidham     2    0.049419
+64                      Kurnool     2    0.049419
+62                         Kota     2    0.049419
+101                    Siliguri     2    0.049419
+114                        Vapi     2    0.049419
+54                       Kanpur     2    0.049419
+13                        Baddi     2    0.049419
+102                     Solapur     1    0.024710
+4                     Alappuzha     1    0.024710
+5                       Aligarh     1    0.024710
+9                         Anand     1    0.024710
+117                  Vijayapura     1    0.024710
+111                  Ulhasnagar     1    0.024710
+6                  Ambala Cantt     1    0.024710
+113                      Valsad     1    0.024710
+115                    Varanasi     1    0.024710
+99                     Shillong     1    0.024710
+81                       Panaji     1    0.024710
+97                        Salem     1    0.024710
+96   Sahibzada Ajit Singh Nagar     1    0.024710
+43                       Imphal     1    0.024710
+49                     Jamnagar     1    0.024710
+50                   Jamshedpur     1    0.024710
+52                     Kakinada     1    0.024710
+55                    Karaikudi     1    0.024710
+57                      Khammam     1    0.024710
+58                    Kharagpur     1    0.024710
+35                     Gulbarga     1    0.024710
+34                Greater Noida     1    0.024710
+27                    Dibrugarh     1    0.024710
+25                      Cuttack     1    0.024710
+21                      Bikaner     1    0.024710
+18                    Bhavnagar     1    0.024710
+40                     Haridwar     1    0.024710
+15                     Bareilly     1    0.024710
+90                  Rajahmundry     1    0.024710
+11                   Ankleshwar     1    0.024710
+94                     Rourkela     1    0.024710
+95                        Sagar     1    0.024710
+60                     Kolhapur     1    0.024710
 
 ```
 </p>
@@ -394,8 +516,10 @@ $ python interface.py @samples/cities_in_china.txt
 <p>
 
 ```
-
-
+$ python interface.py @samples/sku.txt
+           sku   size  percentage
+0  Google Play  13090     81.8125
+1          iOS   2910     18.1875
 ```
 </p>
 </details>
@@ -404,7 +528,87 @@ $ python interface.py @samples/cities_in_china.txt
 <p>
 
 ```
-
+$ python interface.py @samples/install_source.txt
+                                          install_source   size  percentage
+26                                   com.android.vending  10021    62.63125
+70                                                iTunes   2828    17.67500
+34                   com.google.android.packageinstaller   1182     7.38750
+72                                        manual_install    909     5.68125
+25                          com.android.packageinstaller    605     3.78125
+46                             com.miui.packageinstaller    133     0.83125
+69                                    com.xiaomi.mipicks     62     0.38750
+67                                     com.xiaomi.market     55     0.34375
+28                                   com.baidu.searchbox     15     0.09375
+65                                 com.xiaomi.gamecenter     14     0.08750
+53                  com.samsung.android.packageinstaller     13     0.08125
+40                               com.lenovo.anyshare.gps     11     0.06875
+71                                   ir.mservices.market     11     0.06875
+24                                    com.android.chrome     11     0.06875
+50                                       com.oppo.market      9     0.05625
+44                                      com.meizu.mstore      8     0.05000
+56                             com.sec.android.easyMover      5     0.03125
+55                       com.sec.android.app.samsungapps      5     0.03125
+32                               com.coloros.filemanager      5     0.03125
+38                                 com.huluxia.gametools      5     0.03125
+64                                com.wandoujia.phoenix2      5     0.03125
+63                                     com.vivo.appstore      5     0.03125
+75                                 ru.YDTbbyxF.JTbYkiOgF      4     0.02500
+21                                             cn.xender      3     0.01875
+61                                     com.uc.browser.en      3     0.01875
+35                          com.halfbrick.jetpackjoyride      3     0.01875
+31                                      com.byfen.market      3     0.01875
+54                            com.samsung.android.scloud      2     0.01250
+42                                  com.m4399.gamecenter      2     0.01250
+41                                       com.lion.market      2     0.01250
+52                                   com.qihoo.gameunion      2     0.01250
+37                                             com.huati      2     0.01250
+58                                          com.tcl.live      2     0.01250
+66                             com.xiaomi.gamecenter.pad      2     0.01250
+33                                     com.gh.gamecenter      2     0.01250
+29                                     com.baoruan.lewan      2     0.01250
+27  com.android.vending.billing.InAppBillingService.COIN      2     0.01250
+51                                      com.pp.assistant      2     0.01250
+13                                                   303      2     0.01250
+23                                   com.android.browser      2     0.01250
+22                                     com.UCMobile.intl      2     0.01250
+62                                          com.uptodown      2     0.01250
+74                                 ru.MhEnBwnP.femjCPVFT      1     0.00625
+59                                       com.tcl.live.hd      1     0.00625
+73                                           net.appcake      1     0.00625
+57                                com.sogou.activity.src      1     0.00625
+68                                     com.xiaomi.midrop      1     0.00625
+76                                 ru.yFarPSsi.lSWLCBgGE      1     0.00625
+60                                       com.tencent.mtt      1     0.00625
+77                                                   浏览器      1     0.00625
+0                                                    104      1     0.00625
+39                                     com.kkptech.kkpsy      1     0.00625
+49                             com.oneplus.backuprestore      1     0.00625
+14                                                   313      1     0.00625
+2                                                   1051      1     0.00625
+3                                                   1168      1     0.00625
+4                                                    140      1     0.00625
+5                                                    158      1     0.00625
+6                                                    181      1     0.00625
+7                                                     19      1     0.00625
+8                                                      2      1     0.00625
+9                                                     21      1     0.00625
+10                                                    22      1     0.00625
+11                                                    24      1     0.00625
+12                                                    30      1     0.00625
+15                                                   409      1     0.00625
+48                                 com.mofirst.playstore      1     0.00625
+16                                                    68      1     0.00625
+17                                                   866      1     0.00625
+18                                                    97      1     0.00625
+19                                   cn.niucoo.niucooapp      1     0.00625
+20                                   cn.niuxin.niucooapp      1     0.00625
+30                    com.bluestacks.BstCommandProcessor      1     0.00625
+36                             com.hicloud.android.clone      1     0.00625
+1                                                   1048      1     0.00625
+43                            com.meizu.flyme.gamecenter      1     0.00625
+45                                  com.miui.cloudbackup      1     0.00625
+47                                    com.mobile.indiapp      1     0.00625
+78                                                   葫芦侠      1     0.00625
 
 ```
 </p>
@@ -414,8 +618,14 @@ $ python interface.py @samples/cities_in_china.txt
 <p>
 
 ```
-
-
+$ python interface.py @samples/ua_source.txt
+     ua_source  size  percentage
+4  google-play  9406    58.78750
+0     (direct)  6518    40.73750
+2     firebase    72     0.45000
+3       google     2     0.01250
+1  apkpure.com     1     0.00625
+5      youtube     1     0.00625
 ```
 </p>
 </details>
@@ -424,8 +634,10 @@ $ python interface.py @samples/cities_in_china.txt
 <p>
 
 ```
-
-
+$ python interface.py @samples/device_category.txt
+  device_category   size  percentage
+0          mobile  14152       88.45
+1          tablet   1848       11.55
 ```
 </p>
 </details>
@@ -434,8 +646,147 @@ $ python interface.py @samples/cities_in_china.txt
 <p>
 
 ```
-
-
+$ python interface.py @samples/device_brand_name.txt
+    device_brand_name  size  percentage
+94            Samsung  4738   30.864439
+8               Apple  2910   18.956420
+39             Huawei  1977   12.878640
+126            Xiaomi  1491    9.712722
+53                 LG   622    4.051853
+71           Motorola   584    3.804312
+120              Vivo   575    3.745684
+78               OPPO   542    3.530715
+60             Lenovo   275    1.791414
+80            OnePlus   179    1.166048
+5             Alcatel   126    0.820793
+76              Nokia   117    0.762165
+93             Realme   105    0.683995
+102              Sony    99    0.644909
+10               Asus    99    0.644909
+43            Infinix    96    0.625366
+56               Lava    62    0.403882
+36                HTC    59    0.384340
+110             Tecno    50    0.325712
+32             Gionee    49    0.319197
+68           Micromax    48    0.312683
+122              Wiko    42    0.273598
+15                 BQ    41    0.267084
+72         Multilaser    41    0.267084
+131               ZTE    36    0.234512
+67              Meizu    21    0.136799
+33             Google    19    0.123770
+17          Blackview    17    0.110742
+135              itel    15    0.097714
+81               Oppo    14    0.091199
+58               LeTV    13    0.084685
+45              Intex    13    0.084685
+6              Amazon    12    0.078171
+54                LYF    12    0.078171
+13                BLU    11    0.071657
+121          Vodafone    11    0.071657
+42            InFocus    10    0.065142
+133              iNew     9    0.058628
+132             iBall     9    0.058628
+23            Coolpad     9    0.058628
+83          Panasonic     8    0.052114
+0               10.or     8    0.052114
+61            Lephone     7    0.045600
+3                Acer     7    0.045600
+48            Karbonn     7    0.045600
+79                OWN     7    0.045600
+70          Mobiistar     6    0.039085
+38                How     5    0.032571
+127              Xolo     5    0.032571
+96              Sharp     4    0.026057
+22              Comio     4    0.026057
+2                 ANS     3    0.019543
+57              LeEco     3    0.019543
+74             Neffos     3    0.019543
+18            Bmobile     3    0.019543
+52            Kyocera     3    0.019543
+19                CAT     3    0.019543
+35                HOW     3    0.019543
+87           Positivo     3    0.019543
+95            Sanemax     2    0.013028
+75           Neuimage     2    0.013028
+103      SonyEricsson     2    0.013028
+106          Symphony     2    0.013028
+66              Meitu     2    0.013028
+82            Oukitel     2    0.013028
+108             Tanix     2    0.013028
+118              Vido     2    0.013028
+28           Elephone     2    0.013028
+116              VOTO     2    0.013028
+64            Magicon     2    0.013028
+125             Xgody     2    0.013028
+16              Bitel     2    0.013028
+134        iku-mobile     2    0.013028
+9              Archos     2    0.013028
+117          Videocon     2    0.013028
+115           Umidigi     2    0.013028
+7                Ampe     2    0.013028
+59             Leagoo     2    0.013028
+63              MStar     2    0.013028
+21       China Mobile     2    0.013028
+130            Yuntab     1    0.006514
+136           karbonn     1    0.006514
+137           myPhone     1    0.006514
+104            Storex     1    0.006514
+101          Softbank     1    0.006514
+105             Sugar     1    0.006514
+113               UMI     1    0.006514
+107           TP-Link     1    0.006514
+129                YU     1    0.006514
+109               Tcl     1    0.006514
+128            Xtreme     1    0.006514
+124            X-TIGI     1    0.006514
+123              X-BO     1    0.006514
+119            Vigica     1    0.006514
+99           Smartron     1    0.006514
+111      Timing Power     1    0.006514
+114           Ulefone     1    0.006514
+112             U Box     1    0.006514
+100          SoftBank     1    0.006514
+69             Mirage     1    0.006514
+98          Smartisan     1    0.006514
+27                EKS     1    0.006514
+41              Iball     1    0.006514
+40               IPPO     1    0.006514
+37                HTM     1    0.006514
+34               Gree     1    0.006514
+31              Giada     1    0.006514
+30             Geotel     1    0.006514
+29          Essential     1    0.006514
+26             Doogee     1    0.006514
+46               Itel     1    0.006514
+25               Dell     1    0.006514
+24          Crosscall     1    0.006514
+20             Celkon     1    0.006514
+14             BLUBOO     1    0.006514
+12              Azumi     1    0.006514
+11              Avvio     1    0.006514
+4               Advan     1    0.006514
+44             InnJoo     1    0.006514
+47              Jiake     1    0.006514
+97               Sico     1    0.006514
+84            Philips     1    0.006514
+92              Reach     1    0.006514
+91                RCA     1    0.006514
+90          Qihoo 360     1    0.006514
+89               Qbex     1    0.006514
+88             Primux     1    0.006514
+86             Poptel     1    0.006514
+85            Pioneer     1    0.006514
+77                Nuu     1    0.006514
+49           Kenxinda     1    0.006514
+73            Navcity     1    0.006514
+1                 360     1    0.006514
+65           Mediacom     1    0.006514
+62            Logicom     1    0.006514
+55              Lanix     1    0.006514
+51              Konka     1    0.006514
+50           KingSing     1    0.006514
+138              true     1    0.006514
 ```
 </p>
 </details>
@@ -444,8 +795,10 @@ $ python interface.py @samples/cities_in_china.txt
 <p>
 
 ```
-
-
+$ python interface.py @samples/device_os.txt
+  device_os   size  percentage
+0   ANDROID  13090     81.8125
+1       IOS   2910     18.1875
 ```
 </p>
 </details>
@@ -454,8 +807,10 @@ $ python interface.py @samples/cities_in_china.txt
 <p>
 
 ```
-
-
+$ python interface.py @samples/is_limited_ad_tracking.txt
+  is_limited_ad_tracking   size  percentage
+0                     No  15660      97.875
+1                    Yes    340       2.125
 ```
 </p>
 </details>
@@ -464,8 +819,203 @@ $ python interface.py @samples/cities_in_china.txt
 <p>
 
 ```
-
-
+$ python interface.py @samples/device_language.txt
+    device_language  size  percentage
+153           pt-br  2266    14.16250
+131           it-it  1923    12.01875
+91            en-us  1830    11.43750
+58            en-gb  1685    10.53125
+178      zh-hans-cn  1346     8.41250
+100           es-es  1282     8.01250
+172           zh-cn  1131     7.06875
+65            en-in  1093     6.83125
+106           es-us   623     3.89375
+9             ar-eg   593     3.70625
+2             ar-ae   417     2.60625
+98            es-cl   268     1.67500
+105           es-pe   138     0.86250
+110           fa-ir   110     0.68750
+97            es-ar    95     0.59375
+165           th-th    86     0.53750
+137           ja-jp    83     0.51875
+12            ar-iq    78     0.48750
+173         zh-hans    62     0.38750
+47            en-au    48     0.30000
+154           pt-pt    45     0.28125
+114           fr-fr    43     0.26875
+103           es-mx    37     0.23125
+122           hi-in    31     0.19375
+28            ar-ye    29     0.18125
+18            ar-ly    29     0.18125
+159           ru-ru    26     0.16250
+56            en-eg    25     0.15625
+30            ca-es    22     0.13750
+20            ar-om    22     0.13750
+35            de-de    18     0.11250
+66            en-iq    17     0.10625
+21            ar-qa    16     0.10000
+54            en-cn    16     0.10000
+67            en-ir    16     0.10000
+52            en-ca    15     0.09375
+24            ar-sy    13     0.08125
+39               en    12     0.07500
+34            de-ch    12     0.07500
+79            en-nz    12     0.07500
+121           gu-in    11     0.06875
+185      zh-hans-us    11     0.06875
+82            en-qa    11     0.06875
+186      zh-hant-cn    11     0.06875
+180      zh-hans-hk     9     0.05625
+189      zh-hant-mo     9     0.05625
+41            en-ae     8     0.05000
+42            en-af     8     0.05000
+142           lo-la     8     0.05000
+22            ar-sa     8     0.05000
+188      zh-hant-hk     7     0.04375
+57            en-es     7     0.04375
+27            ar-us     7     0.04375
+16            ar-kw     7     0.04375
+133           it-sm     7     0.04375
+156           ro-ro     6     0.03750
+11            ar-il     6     0.03750
+80            en-om     6     0.03750
+70            en-jp     6     0.03750
+78            en-np     6     0.03750
+183      zh-hans-jp     5     0.03125
+68            en-it     5     0.03125
+124              it     4     0.02500
+62            en-hk     4     0.02500
+63            en-ie     4     0.02500
+93            en-za     4     0.02500
+164           th-la     4     0.02500
+128           it-de     4     0.02500
+15            ar-jo     4     0.02500
+150           pl-pl     4     0.02500
+53            en-cl     4     0.02500
+85            en-sg     4     0.02500
+152           pt-ao     3     0.01875
+84            en-sa     3     0.01875
+94               es     3     0.01875
+95           es-419     3     0.01875
+51            en-bz     3     0.01875
+74            en-mo     3     0.01875
+73            en-ly     3     0.01875
+46            en-as     3     0.01875
+167           tr-tr     3     0.01875
+169           uk-ua     3     0.01875
+146           nb-no     3     0.01875
+171           vi-vn     3     0.01875
+143           lt-lt     3     0.01875
+136              ja     2     0.01250
+123           in-id     2     0.01250
+10            ar-et     2     0.01250
+8             ar-dz     2     0.01250
+111           fa-us     2     0.01250
+134           it-us     2     0.01250
+129           it-gb     2     0.01250
+126           it-be     2     0.01250
+127           it-ch     2     0.01250
+108           es-ve     2     0.01250
+193           zh-tw     2     0.01250
+5             ar-aw     2     0.01250
+77            en-my     2     0.01250
+1               ar-     2     0.01250
+81            en-ph     2     0.01250
+50            en-br     2     0.01250
+170           vi-jp     2     0.01250
+175      zh-hans-au     2     0.01250
+176      zh-hans-aw     2     0.01250
+177      zh-hans-ca     2     0.01250
+179      zh-hans-gb     2     0.01250
+76            en-mt     2     0.01250
+60            en-gh     2     0.01250
+182      zh-hans-it     2     0.01250
+184      zh-hans-tw     2     0.01250
+25            ar-tn     2     0.01250
+161           ta-in     2     0.01250
+23            ar-sd     2     0.01250
+14            ar-it     2     0.01250
+141           ku-iq     1     0.00625
+181      zh-hans-in     1     0.00625
+140           ko-us     1     0.00625
+174      zh-hans-al     1     0.00625
+139           ko-cn     1     0.00625
+187      zh-hant-es     1     0.00625
+145           ms-my     1     0.00625
+144           mr-in     1     0.00625
+163           th-gr     1     0.00625
+158           ru-eg     1     0.00625
+155           ro-md     1     0.00625
+160           sv-se     1     0.00625
+190      zh-hant-tt     1     0.00625
+191      zh-hant-tw     1     0.00625
+162           te-in     1     0.00625
+151             pt-     1     0.00625
+157           ru-by     1     0.00625
+192           zh-hk     1     0.00625
+166           th-us     1     0.00625
+149           pa-in     1     0.00625
+138           ja-mo     1     0.00625
+148           nl-nl     1     0.00625
+147           nl-br     1     0.00625
+168           uk-es     1     0.00625
+0                ar     1     0.00625
+135           it-xk     1     0.00625
+132           it-jp     1     0.00625
+64            en-il     1     0.00625
+61            en-gu     1     0.00625
+59            en-gd     1     0.00625
+55            en-de     1     0.00625
+49            en-ax     1     0.00625
+48            en-aw     1     0.00625
+45            en-ar     1     0.00625
+44            en-aq     1     0.00625
+43            en-ag     1     0.00625
+40              en-     1     0.00625
+38            de-us     1     0.00625
+37            de-it     1     0.00625
+36            de-eg     1     0.00625
+33            de-at     1     0.00625
+32            da-dk     1     0.00625
+31               da     1     0.00625
+29            bg-bg     1     0.00625
+26            ar-tr     1     0.00625
+19            ar-ma     1     0.00625
+17            ar-lb     1     0.00625
+13            ar-is     1     0.00625
+7             ar-cn     1     0.00625
+6             ar-bh     1     0.00625
+4             ar-ar     1     0.00625
+3             ar-am     1     0.00625
+69            en-jo     1     0.00625
+71            en-ke     1     0.00625
+72            en-lb     1     0.00625
+107           es-uy     1     0.00625
+130           it-gr     1     0.00625
+125           it-ag     1     0.00625
+120           fr-wf     1     0.00625
+119           fr-tg     1     0.00625
+118           fr-ml     1     0.00625
+117           fr-ly     1     0.00625
+116           fr-ht     1     0.00625
+115           fr-ga     1     0.00625
+113           fr-cm     1     0.00625
+112           fr-ca     1     0.00625
+109           fa-ca     1     0.00625
+104           es-nl     1     0.00625
+75            en-mr     1     0.00625
+102           es-gt     1     0.00625
+101           es-fr     1     0.00625
+99            es-co     1     0.00625
+96            es-af     1     0.00625
+92            en-ye     1     0.00625
+90            en-tz     1     0.00625
+89            en-tw     1     0.00625
+88            en-th     1     0.00625
+87            en-td     1     0.00625
+86            en-sv     1     0.00625
+83            en-ru     1     0.00625
+194           zz-zz     1     0.00625
 ```
 </p>
 </details>
@@ -473,7 +1023,11 @@ $ python interface.py @samples/cities_in_china.txt
 You can also run example plots.
 
 ```
-python interface.py @samples/
+python interface.py @samples/plot_total.txt
+```
+
+```
+python interface.py @samples/plot_total.txt
 ```
 
 ## Unit tests
