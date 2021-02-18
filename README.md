@@ -120,6 +120,24 @@ python tests.py
 
 ## Pip install
 
+Install with
+
+````
+pip install ....
+````
+
+The name of the package is `happ` , and can be run with:
+
+```
+happ [OPTIONS]
+```
+
+For example:
+
+```
+happ @samples/device_os
+```
+
 
 
 ## Docker install

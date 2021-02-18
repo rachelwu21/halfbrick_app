@@ -12,10 +12,15 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/rachelwu21/halfbrick_app/",
-    packages=setuptools.find_packages(),
+    packages=['.','src'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
+    entry_points={
+    'console_scripts': [
+        'happ=interface:main',
+    ],
+    },
 )
     
