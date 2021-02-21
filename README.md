@@ -1114,7 +1114,7 @@ python tests.py
 Install with
 
 ````
-pip install ....
+pip install halfbrick-app-demo
 ````
 
 The name of the package is `happ` , and can be run with:
