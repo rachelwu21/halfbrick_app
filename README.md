@@ -49,7 +49,7 @@ There are several example files of how to use the program, which can be tried by
 
 `--sep` is used to specify the separator between columns used in the CSV. It will default to ',' is left unused.
 
-`--blocksize` is used to break up large CSV files and manage memory, by default Dask should prevent overflow. The size of the blocks is in bytes.
+`--blocksize` is used to break up large CSV files and manage memory, by default Dask should prevent overflow. The size of the blocks is in bytes. **Dask can handle bigger file sizes than Pandas. You can try running the program with a bigger CSV to try it out.**
 
 `--start` and `--end` are for filtering by date. It can handle any date format Pandas' `to_datetime` function can handle. An example of how such a command would work is under `samples/filter_by_time.txt`. 
 
@@ -67,41 +67,64 @@ So it can be "the row must be in this country or that region". It also allows fo
 
 ## Examples and Insights from the Given Dataset
 
+### Commands and their outputs
+
 By running the right commands, it is possible to extract informative aggregations from the data.
 
-By running:
+For example::
+
+<details><summary>Countries</summary>
+<p>
 
 ```
-python interface.py @samples/countries.txt
+$ python interface.py @samples/countries.txt
+   geo_country  size  percentage
+16       India  4047   25.357143
+8        China  2593   16.246867
+5       Brazil  2302   14.423559
+19       Italy  2054   12.869674
+32       Spain  1216    7.619048
+10       Egypt   991    6.209273
+7        Chile   856    5.363409
+30        Peru   477    2.988722
+18        Iraq   224    1.403509
+17        Iran   210    1.315789
+27       Nepal   181    1.134085
+20       Japan   161    1.008772
+22        Laos   101    0.632832
+34       Syria    98    0.614035
+29        Oman    74    0.463659
+23       Libya    68    0.426065
+31       Qatar    65    0.407268
+36       Yemen    58    0.363409
+13       Ghana    28    0.175439
+21       Kenya    21    0.131579
+0       Angola    17    0.106516
+2       Belize    14    0.087719
+24       Macao    14    0.087719
+9         Cuba    13    0.081454
+33       Sudan    12    0.075188
+15       Haiti    11    0.068922
+12       Gabon    10    0.062657
+26       Malta    10    0.062657
+11        Fiji     6    0.037594
+25        Mali     6    0.037594
+3        Benin     5    0.031328
+14        Guam     5    0.031328
+35        Togo     5    0.031328
+6         Chad     2    0.012531
+4       Bhutan     2    0.012531
+1        Aruba     2    0.012531
+28       Niger     1    0.006266
+
 ```
+</p>
+</details>
 
 We learn the number of downloads in the last 24 hours (the data given only covers 24 hours) in each nation. The top ten nations with the most downloads are, in order: India, China, Brazil, Italy, Spain, Egypt, Chile, Peru, Iraq, Iran. By comparison, the ten most populous nations in the world are: China, India, United States, Indonesia, Pakistan, Brazil, Nigeria, Bangladesh, Russia, Mexico.
 
 It may be useful to look at the cities with the most downloads in the two top nations:
 
-``` 
-python interface.py @samples/cities_in_china.txt
-python interface.py @samples/cities_in_india.txt
-```
-
-We learn that the most downloads in China are not recorded as any specific city, and the city with the most downloads is Shanghai, with 98 out of the total 2593 (3.8%) downloads in China. This makes sense, since Shanghai was the most populous city in China as of the 2010 census, with 1.5% of the nation's total population. This means the city is vastly over-represented in terms of number of downloads. This makes sense, as people living in cities are more likely to be able to afford higher-end smartphones for games.
-
-The city with the most downloads in India is Hyderabad, which is only the fourth most populous city in India, with 0.9% of the nation's total population as of 2019. In comparison, it made up 11.7% of the number of downloads from India in the 24 hours given.
-
-A quick look as all the other possible aggregations will also be useful:
-
-```
-python interface.py @samples/sku.txt
-python interface.py @samples/install_source.txt
-python interface.py @samples/ua_source.txt
-python interface.py @samples/device_category.txt
-python interface.py @samples/device_brand_name.txt
-python interface.py @samples/device_os.txt
-python interface.py @samples/is_limited_ad_tracking.txt
-python interface.py @samples/device_language.txt
-```
-
-### Commands and their outputs
 <details><summary>Cities in China</summary>
 <p>
 
@@ -512,6 +535,10 @@ $ python interface.py @samples/cities_in_india.txt
 </p>
 </details>
 
+We learn that the most downloads in China are not recorded as any specific city, and the city with the most downloads is Shanghai, with 98 out of the total 2593 (3.8%) downloads in China. This makes sense, since Shanghai was the most populous city in China as of the 2010 census, with 1.5% of the nation's total population. This means the city is vastly over-represented in terms of number of downloads. This makes sense, as people living in cities are more likely to be able to afford higher-end smartphones for games.
+
+The city with the most downloads in India is Hyderabad, which is only the fourth most populous city in India, with 0.9% of the nation's total population as of 2019. In comparison, it made up 11.7% of the number of downloads from India in the 24 hours given.
+
 <details><summary>sku</summary>
 <p>
 
@@ -523,6 +550,8 @@ $ python interface.py @samples/sku.txt
 ```
 </p>
 </details>
+
+This isn't too complicated, the vast majority (81.8%) of the users obtained their purchase token through Google Play.
 
 <details><summary>Install Source</summary>
 <p>
@@ -614,6 +643,8 @@ $ python interface.py @samples/install_source.txt
 </p>
 </details>
 
+Again, not too complicated. The majority (62.6%) of the activity came from users that installed through "com.android.vending", followed by "iTunes" (17.7%), then by "com.google.android.packageinstaller" (7.4%). This matches the earlier point that most users obtained their purchase token through Google Play.
+
 <details><summary>UA Source</summary>
 <p>
 
@@ -641,6 +672,8 @@ $ python interface.py @samples/device_category.txt
 ```
 </p>
 </details>
+
+Most of the users are on mobile (88.45%) rather than tablet (11.55%).
 
 <details><summary>Device Brand Name</summary>
 <p>
@@ -791,6 +824,8 @@ $ python interface.py @samples/device_brand_name.txt
 </p>
 </details>
 
+Most of the users are on Samsung (30.9%), Apple (19.0%), Huawei (12.9%), or Xiaomi devices (9.7%). This matches the earlier point about the nations users tend to be in. There is a sizeable minority of Chinese users.
+
 <details><summary>Device OS</summary>
 <p>
 
@@ -803,6 +838,8 @@ $ python interface.py @samples/device_os.txt
 </p>
 </details>
 
+The vast majority of users use some form on Android (81.8%), which matches our previous observations about installation source and phone brands.
+
 <details><summary>Ad Tracking</summary>
 <p>
 
@@ -814,6 +851,8 @@ $ python interface.py @samples/is_limited_ad_tracking.txt
 ```
 </p>
 </details>
+
+Interestingly, the overwhelming majority (97.9%) of users allow ad tracking, which should make the data obtained from the tracking reasonably representative.
 
 <details><summary>Device Language</summary>
 <p>
@@ -1020,15 +1059,46 @@ $ python interface.py @samples/device_language.txt
 </p>
 </details>
 
+The sum of the variations of English (en-??) is 30.6%, and the sum of the variations of Chinese (zh-??) is 16.3%. In comparison, the sum of users that speak Brazilian Portuguese (pt-br) alone is 14.2%.
+
 You can also run example plots.
 
 ```
 python interface.py @samples/plot_total.txt
 ```
 
+![Plot 1](plot_total.png)
+
+This shows that there is a dip in downloads from evening (18:00) to morning (9:00) in UTC, but let's break this down by nation for the ten nations with the most activity.
+
 ```
-python interface.py @samples/plot_total.txt
+python interface.py @samples/plot_nations.txt
 ```
+
+![Plot 2](plot_nations.png)
+
+The last five nations are a bit hard to see, so I'll put them into a new plot:
+
+```
+python interface.py @samples/plot_nations2.txt
+```
+
+![Plot 2](plot_nations2.png)
+
+The nations generally have a valley of low activity, largely at night in local time. Theit hour with the most activity is generally after work, before most people go to sleep (17:00 to 22:00), with the exception of China. **This is because October 1st is China's National Day, explaining why there is constant activity throughout the day for Chinese users.**
+
+Country | Lower activity (UTC) | Highest activity (UTC)| Timezone | Lower activity (Local) | Highest activity (Local)
+------ | ------ | ------ | ------ | ------
+India   | 17 to 4  | 14:00 | UTC+5:30 | 22:30 to 9:30 | 19:30
+China   | 15 to 0  | 4:00 | UTC+8:00 | 23:00 to 8:00 | 12:00
+Brazil   | 1 to 13  | 0:00 | UTC-2:00 to UTC-5:00  | 19:00 to 22:00
+Italy   | 22 to 4  | 18:00 | UTC+1:00 | 23:00 to 5:00 | 19:00
+Spain   | 21 to 1  | 19:00 | UTC+0 to UTC+1 | 21/22:00 to 1/2:00 | 19:00 to 20:00
+Egypt   | 21 to 10  | 18 to 19 | UTC+2:00 | 23:00 to 12:00 | 20:00 to 21:00
+Chile   | 2 to 13  | 23:00 | UTC-3:00 | 23:00 to 10:00 | 20:00
+Peru   | 3 to 13  | 22:00 | UTC-5:00 | 22:00 to 8:00 | 17:00
+Iraq   | 22 to 7  | 15:00 | UTC+3:00 | 1:00 to 10:00 | 18:00
+Iran   | 21 to 8  | 18:00 | UTC+3:30 | 0:30 to 11:30 | 21:30
 
 ## Unit tests
 
@@ -1072,9 +1142,16 @@ docker build -t halfbrick_app .
 Try running it for a print output:
 
 ```
+docker run --rm halfbrick_app [ARGUMENTS]
+```
+
+For example:
+
+```
 docker run --rm halfbrick_app @samples/device_category.txt
 ```
-If you want to make your own file with command-line arguments in the host machine and pass it to the docker container, run:
+
+If you want to make your own file of command-line arguments in the host machine and pass it to the docker container, run:
 
 ```
 docker run --name h_app -v $(pwd):$(pwd) halfbrick_app @YOUR/PATH/HERE
@@ -1086,10 +1163,16 @@ If you want to copy the output file to the host:
 sudo docker cp h_app:EXAMPLE_FILE $(pwd)
 ```
 
+The above method did not remove the running container after creating it, so you will have to `-rm` if manually later:
+
+```
+sudo docker -rm h_app
+```
+
 For example:
 
 ```
-docker run --name h_app -v $(pwd):$(pwd) halfbrick_app @samples/plot_total.txt
+sudo docker run --name h_app -v $(pwd):$(pwd) halfbrick_app @samples/plot_total.txt
 sudo docker cp h_app:plot_total.png $(pwd)
 ```
 

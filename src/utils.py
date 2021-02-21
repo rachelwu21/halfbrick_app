@@ -10,7 +10,6 @@ def lower(s):
 def csv_to_json(csvFilePath, jsonFilePath):
     data = dict()
     idx = 1
-    print("csvFilePath",csvFilePath)
     with open(csvFilePath, encoding='utf-8') as csvf: 
         csvReader = csv.DictReader(csvf) 
         for row in csvReader: 
